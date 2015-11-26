@@ -22,7 +22,7 @@ public class SendNotification {
     public static void feedbackForm(Context context) {
         int notificationId = 001;
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://m.docs.google.com/forms/d/1KpwGcRarNoSa1J2-lZSqNSizuZDj2dSy2txg66FSpsQ/viewform"));
+        intent.setData(Uri.parse(context.getString(R.string.url_feedback_form)));
         PendingIntent viewPendingIntent =
                 PendingIntent.getActivity(context, 0, intent, 0);
 

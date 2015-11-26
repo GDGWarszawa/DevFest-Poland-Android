@@ -34,6 +34,10 @@
     <string name="notification_title">Dziękujemy za udział w DevFest Poland 2015</string>
     <string name="notification_text">Zachęcamy do oceny wydarzenia by edycja 2016 była jeszcze lepsza</string>
 
+    <string name="url_feedback_form">https://docs.google.com/forms/d/10Ejf5ES6C5UNrqSfCnt2pc1ZZ01qb02dRLqBneBe3Y4/viewform</string>
+    <string name="url_map_place">https://www.google.pl/maps/place/Kino+Iluzjon/@52.2055514,21.0101665,18z/data=!3m1!4b1!4m2!3m1!1s0x471eccc3d4b32f9d:0xc433cbcc94c89dc1</string>
+    <string name="url_agenda">https://docs.google.com/spreadsheets/d/1lvvTemcdqZKB12bGPQ7kY5cz8_D40z07fIjWqKxocUY/pub?gid=0&amp;single=true&amp;output=tsv</string>
+
     <!-- libraries -->
     <string name="define_OpenCSV"></string>
     <string name="library_OpenCSV_author">Bytecode Pty Ltd</string>

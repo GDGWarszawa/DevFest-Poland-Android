@@ -12,6 +12,9 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
+import com.crashlytics.android.answers.CustomEvent;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -84,11 +87,16 @@ public class ConferenceActivity extends AppCompatActivity {
                 simpleDateFormat.format(new Date(mConference.getStartDate()))
                         + simpleDateFormat2.format(new Date(mConference.getEndDate())));
 
-        Picasso.with(getApplicationContext())
-                .load(mConference.getSpeakerImageUrl())
-                .transform(((BaseApplication) getApplicationContext()).mPicassoTransformation)
-                .into((ImageView) findViewById(R.id.image));
+        if(mConference.getSpeakerImageUrl() != null && !("".equals(mConference.getSpeakerImageUrl()))) {
+            Picasso.with(getApplicationContext())
+                    .load(mConference.getSpeakerImageUrl())
+                    .transform(((BaseApplication) getApplicationContext()).mPicassoTransformation)
+                    .into((ImageView) findViewById(R.id.image));
+        }
         setupFAB();
+        Answers.getInstance().logContentView(new ContentViewEvent()
+                .putContentName("Session details")
+                .putContentId(mConference.getHeadeline()));
     }
 
     /**
@@ -104,8 +112,12 @@ public class ConferenceActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (mConference.toggleFavorite(getBaseContext())) {
                     fab.setImageResource(R.drawable.ic_favorite_white_24dp);
+                    Answers.getInstance().logCustom(new CustomEvent("Session like")
+                            .putCustomAttribute("title", mConference.getHeadeline()));
                 } else {
                     fab.setImageResource(R.drawable.ic_favorite_outline_white_24dp);
+                    Answers.getInstance().logCustom(new CustomEvent("Session unlike")
+                            .putCustomAttribute("title", mConference.getHeadeline()));
                 }
             }
         });

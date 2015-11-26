@@ -76,7 +76,7 @@ public class AboutActivity extends AppCompatActivity implements AdapterView.OnIt
         switch (position) {
             case 0: //Launch Navigation to the conference site
                 Intent i = new Intent(android.content.Intent.ACTION_VIEW,
-                        Uri.parse("https://www.google.pl/maps/place/Kino+Iluzjon/@52.2055514,21.0101665,18z/data=!3m1!4b1!4m2!3m1!1s0x471eccc3d4b32f9d:0xc433cbcc94c89dc1"));
+                        Uri.parse(getString(R.string.url_map_place)));
                 startActivity(i);
                 break;
             case 1: // Display the Open Source projects used for this application
@@ -96,7 +96,7 @@ public class AboutActivity extends AppCompatActivity implements AdapterView.OnIt
                 break;
             case 3: //Open the feedback form
                 Intent i3 = new Intent(Intent.ACTION_VIEW);
-                i3.setData(Uri.parse("https://docs.google.com/forms/d/1nliavYLhvnAg2CbobJYeOq0HJu6uVO4OxeR4ZqfYVS0/viewform"));
+                i3.setData(Uri.parse(getString(R.string.url_feedback_form)));
                 startActivity(i3);
                 break;
         }

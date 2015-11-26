@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity
             BugDroid.OnRefreshClickListener {
 
     public static final String CONFERENCES = "conferences";
-    public static final String URL = "https://docs.google.com/spreadsheets/d/1a6UtL_YiKu2j6TgrnhpPcxfwuFX69Ht_UMOzdcb08Zs/pub?gid=0&single=true&output=tsv";
 
     private MainPagerAdapter mAdapter;
     private ViewPager mViewPager;
@@ -127,16 +126,11 @@ public class MainActivity extends AppCompatActivity
 
     private void setupViewPager(Bundle savedInstanceState) {
         mAdapter = new MainPagerAdapter(getSupportFragmentManager());
-        ConferenceDay day1 = new ConferenceDay(1, "11/12/2015");
-        ConferenceDay day2 = new ConferenceDay(2, "11/13/2015");
+        ConferenceDay day1 = new ConferenceDay(1, "11/28/2015");
         mAdapter.addFragment(ListingFragment.newInstance(mConferences, day1), getString(R.string.day, 1));
-        mAdapter.addFragment(ListingFragment.newInstance(mConferences, day2), getString(R.string.day, 2));
         mViewPager.setAdapter(mAdapter);
         mViewPager.setPageMargin(Utils.dpToPx(8, getBaseContext()));
         mTabLayout.setupWithViewPager(mViewPager);
-        if (savedInstanceState == null && day2.isToday()) {
-            mViewPager.setCurrentItem(1);
-        }
     }
 
     @Override
@@ -174,7 +168,7 @@ public class MainActivity extends AppCompatActivity
 
     private void update() {
         if (!mAnimatedBugDroid.isLoading()) {
-            mVolley.addToRequestQueue(new TSVRequest(this, Request.Method.GET, URL, this, this));
+            mVolley.addToRequestQueue(new TSVRequest(this, Request.Method.GET, getString(R.string.url_agenda), this, this));
             mAnimatedBugDroid.setLoading(true);
             mAnimatedBugDroid.startAnimation();
         }
