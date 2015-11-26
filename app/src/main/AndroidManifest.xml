@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="nl.babbq.conference2015" >
+    package="org.gdgpoland.devfest" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <permission android:protectionLevel="signature"
+        android:name="org.gdgpoland.devfest.permission.C2D_MESSAGE" />
+    <uses-permission android:name="org.gdgpoland.devfest.permission.C2D_MESSAGE" />
 
     <application
-        android:name="nl.babbq.conference2015.BaseApplication"
+        android:name="org.gdgpoland.devfest.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="nl.babbq.conference2015.MainActivity"
+            android:name="org.gdgpoland.devfest.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="nl.babbq.conference2015.ConferenceActivity"
+            android:name="org.gdgpoland.devfest.ConferenceActivity"
             android:label="@string/title_activity_conference" >
         </activity>
         <activity
@@ -28,12 +36,29 @@
             android:label="@string/title_activity_conference" >
         </activity>
         <activity
-            android:name="nl.babbq.conference2015.AboutActivity"
+            android:name="org.gdgpoland.devfest.AboutActivity"
             android:label="@string/action_about" >
         </activity>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="21fc0960a9d537ef44cbb89baca8813081deb9d6" />
+        <service android:name="com.parse.PushService" />
+        <receiver android:name="com.parse.ParsePushBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="org.gdgpoland.devfest" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
