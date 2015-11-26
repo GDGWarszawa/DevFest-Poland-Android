@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#5DB65F</color>
-    <color name="colorPrimaryDark">#4da74f</color>
-    <color name="accentColor">#FF543F</color>
+    <color name="colorPrimary">#495ccf</color>
+    <color name="colorPrimaryDark">#3647af</color>
+    <color name="accentColor">#e80068</color>
     <color name="textColorPrimary">#FFF</color>
     <color name="textColorSecondary">#121212</color>
     <color name="textColorDetail">#424242</color>
     <color name="windowBackground">#efebe9</color>
-    <color name="accentLight">#FF846F</color>
 
-    <color name="babbq_green">#5DB65F</color>
-    <color name="babbq_red">#FF543F</color>
-    <color name="babbq_blue">#4191C4</color>
-    <color name="babbq_yellow">#FFE000</color>
-    <color name="babbq_orange">#F29D20</color>
-    <color name="babbq_purple">#664389</color>
+    <color name="highlight">#4191C4</color>
+    <color name="schedule_announcment">#F29D20</color>
+    <color name="schedule_coffee">#969995</color>
+    <color name="schedule_lunch">#664389</color>
 </resources>

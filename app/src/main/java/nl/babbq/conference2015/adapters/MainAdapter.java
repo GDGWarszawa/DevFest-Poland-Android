@@ -73,16 +73,16 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((ViewHolderHeader)holder).headline.setText(mData.get(position).getHeadeline());
 
             if (mData.get(position).getHeadeline().equals(mContext.getString(R.string.coffee_break))) {
-                holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.babbq_orange));
+                holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.schedule_coffee));
                 ((ViewHolderHeader)holder).iconHeader.setImageResource(R.drawable.coffee);
             } else if (mData.get(position).getHeadeline().equals(mContext.getString(R.string.lunch))) {
-                holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.babbq_purple));
+                holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.schedule_lunch));
                 ((ViewHolderHeader)holder).iconHeader.setImageResource(R.drawable.toast);
             } else if (mData.get(position).getHeadeline().equals(mContext.getString(R.string.tba))) {
                 holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.windowBackground));
                 ((ViewHolderHeader)holder).iconHeader.setImageDrawable(null);
             } else {
-                holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.babbq_yellow));
+                holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.schedule_announcment));
                 ((ViewHolderHeader)holder).iconHeader.setImageResource(R.drawable.microphone);
             }
 

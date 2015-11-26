@@ -3,8 +3,10 @@ package nl.babbq.conference2015;
 import android.app.Application;
 import android.graphics.Bitmap;
 
+import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Transformation;
 
+import io.fabric.sdk.android.Fabric;
 import nl.babbq.conference2015.utils.ImageManager;
 
 /**
@@ -22,6 +24,7 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         mPicassoTransformation = new Transformation(){
             @Override

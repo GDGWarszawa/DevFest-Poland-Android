@@ -7,7 +7,7 @@
     <application
         android:name="nl.babbq.conference2015.BaseApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -31,6 +31,9 @@
             android:name="nl.babbq.conference2015.AboutActivity"
             android:label="@string/action_about" >
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="21fc0960a9d537ef44cbb89baca8813081deb9d6" />
     </application>
 
 </manifest>
