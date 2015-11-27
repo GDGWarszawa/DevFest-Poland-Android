@@ -5,31 +5,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.ChangeBounds;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
-import android.widget.ImageView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
-import org.gdgpoland.devfest.animations.BugDroid;
 import org.gdgpoland.devfest.fragments.ListingFragment;
 import org.gdgpoland.devfest.network.TSVRequest;
 import org.gdgpoland.devfest.network.VolleySingleton;
 import org.gdgpoland.devfest.objects.Conference;
 import org.gdgpoland.devfest.objects.ConferenceDay;
-import org.gdgpoland.devfest.utils.PreferenceManager;
-import org.gdgpoland.devfest.utils.SendNotification;
 import org.gdgpoland.devfest.utils.Utils;
 
 import java.util.ArrayList;
@@ -43,19 +35,14 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity
         implements Response.Listener<List<Conference>>,
-            Response.ErrorListener,
-            BugDroid.OnRefreshClickListener {
+            Response.ErrorListener {
 
     public static final String CONFERENCES = "conferences";
-
-    private MainPagerAdapter mAdapter;
-    private ViewPager mViewPager;
     private ArrayList<Conference> mConferences = new ArrayList<>();
     private Toolbar mToolbar;
-    private TabLayout mTabLayout;
+    private boolean isUpdating;
 
     private VolleySingleton mVolley;
-    private BugDroid mAnimatedBugDroid;
 
     /**
      * Enable to share views across activities with animation
@@ -71,20 +58,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (Utils.isLollipop()) {
-            setupLollipop();
+            //setupLollipop();
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        mTabLayout = (TabLayout) findViewById(R.id.tabs);
-        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        mAnimatedBugDroid = new BugDroid((ImageView)findViewById(R.id.bugDroid),
-                findViewById(R.id.loadingFrame),
-                findViewById(R.id.refreshButton),
-                mTabLayout,
-                this);
 
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
@@ -93,11 +72,11 @@ public class MainActivity extends AppCompatActivity
 
         if (savedInstanceState != null) {
             // Restore value of members from saved state
-            mConferences.addAll(savedInstanceState.<Conference>getParcelableArrayList(CONFERENCES));
+            //mConferences.addAll(savedInstanceState.<Conference>getParcelableArrayList(CONFERENCES));
         } else {
             mConferences.addAll(Conference.loadFromPreferences(this));
         }
-        setupViewPager(savedInstanceState);
+        setupViewPager(mConferences);
         initVolley(this);
         if (mConferences.size() == 0) {
             mToolbar.post(new Runnable() {
@@ -107,16 +86,6 @@ public class MainActivity extends AppCompatActivity
                 }
             });
         }
-        trackOpening();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mAdapter != null) {
-            //we refresh the views in case a conference has been (un)favorite
-            mAdapter.notifyDataSetChanged();
-        }
     }
 
     @Override
@@ -125,13 +94,18 @@ public class MainActivity extends AppCompatActivity
         bundle.putParcelableArrayList(CONFERENCES, mConferences);
     }
 
-    private void setupViewPager(Bundle savedInstanceState) {
-        mAdapter = new MainPagerAdapter(getSupportFragmentManager());
+    private void setupViewPager(ArrayList<Conference> mConferences) {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentFrame);
+        if(currentFragment != null && currentFragment instanceof  ListingFragment) {
+            //((ListingFragment) currentFragment).notifyDataSetChanged();
+            //TODO
+        } else {
+        }
         ConferenceDay day1 = new ConferenceDay(1, "11/28/2015");
-        mAdapter.addFragment(ListingFragment.newInstance(mConferences, day1), getString(R.string.day, 1));
-        mViewPager.setAdapter(mAdapter);
-        mViewPager.setPageMargin(Utils.dpToPx(8, getBaseContext()));
-        mTabLayout.setupWithViewPager(mViewPager);
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ListingFragment listingFragment = ListingFragment.newInstance(mConferences, day1);
+        ft.replace(R.id.fragmentFrame, listingFragment, "listFragment");
+        ft.commit();
     }
 
     @Override
@@ -146,14 +120,11 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_more) {
             startActivity(new Intent(this, AboutActivity.class));
             return true;
+        } else if(id == R.id.action_refresh) {
+            update();
+            return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onPause() {
-        mAnimatedBugDroid.stopAnimation();
-        super.onPause();
     }
 
     private void initVolley(Context context) {
@@ -162,34 +133,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public void onRefreshClick() {
-        update();
-    }
-
     private void update() {
-        if (!mAnimatedBugDroid.isLoading()) {
+        if (!isUpdating) {
+            isUpdating = true;
             mVolley.addToRequestQueue(new TSVRequest(this, Request.Method.GET, getString(R.string.url_agenda), this, this));
-            mAnimatedBugDroid.setLoading(true);
-            mAnimatedBugDroid.startAnimation();
-        }
-    }
-
-    /**
-     * Track how many times the Activity is launched and
-     * send a push notification {@link org.gdgpoland.devfest.utils.SendNotification}
-     * to ask the user for feedback on the event.
-     */
-    private void trackOpening() {
-        PreferenceManager prefManager =
-                new PreferenceManager(getSharedPreferences("MyPref", Context.MODE_PRIVATE));
-        long nb = prefManager.openingApp().getOr(0L);
-        prefManager.openingApp()
-                .put(++nb)
-                .apply();
-
-        if (nb == 10) {
-            SendNotification.feedbackForm(this);
         }
     }
 
@@ -203,71 +150,15 @@ public class MainActivity extends AppCompatActivity
     public void onResponse(List<Conference> response) {
         mConferences.clear();
         mConferences.addAll(response);
-        mAdapter.notifyDataSetChanged(); //might not work
+        setupViewPager(mConferences);
         onUpdateDone();
     }
 
     private void onUpdateDone() {
-        mAnimatedBugDroid.setLoading(false);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mAnimatedBugDroid != null && mAnimatedBugDroid.isAnimating()) {
-            mAnimatedBugDroid.setLoading(false);
-        } else {
-            super.onBackPressed();
-        }
+        isUpdating = false;
     }
 
     public ArrayList<Conference> getConferences() {
         return mConferences;
-    }
-
-    private final class MainPagerAdapter extends FragmentPagerAdapter {
-
-
-        private List<ListingFragment> mFragments;
-        private List<String> mFragmentTitles;
-
-
-        public MainPagerAdapter(FragmentManager fm) {
-            super(fm);
-            mFragmentTitles = new ArrayList<>();
-            mFragments = new ArrayList<>();
-        }
-
-
-        public void addFragment(ListingFragment fragment, String title) {
-            mFragments.add(fragment);
-            mFragmentTitles.add(title);
-        }
-
-        @Override
-        public void notifyDataSetChanged() {
-            super.notifyDataSetChanged();
-            if (mFragments != null) {
-                for (ListingFragment fragment: mFragments) {
-                    fragment.notifyDataSetChanged();
-                }
-            }
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragments.get(position);
-        }
-
-
-        @Override
-        public int getCount() {
-            return mFragments.size();
-        }
-
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitles.get(position);
-        }
     }
 }

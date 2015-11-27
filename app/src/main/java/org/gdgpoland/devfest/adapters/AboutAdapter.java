@@ -29,7 +29,7 @@ public class AboutAdapter extends ArrayAdapter<AboutItem> {
         View v = convertView;
         ViewHolder holder;
         if (v == null) {
-            v = LayoutInflater.from(getContext()).inflate(R.layout.adapter_about, parent, false);
+            v = LayoutInflater.from(getContext()).inflate(R.layout.item_about, parent, false);
 
             holder = new ViewHolder();
             holder.title = (TextView) v.findViewById(R.id.title);

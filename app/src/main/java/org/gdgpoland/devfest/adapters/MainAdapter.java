@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import java.util.Locale;
  * @author Arnaud Camus
  */
 public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = MainAdapter.class.getSimpleName();
     public static final int VIEW_HEADER = 0;
     public static final int VIEW_CONFERENCE = 1;
 
@@ -45,20 +47,22 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        return mData.get(position).getSpeaker() != null
-                    && !TextUtils.isEmpty(mData.get(position).getSpeaker())
-                        ? VIEW_CONFERENCE
-                        : VIEW_HEADER;
+        if(mData.get(position).getSpeaker() != null) {
+            if(TextUtils.isEmpty(mData.get(position).getSpeaker())) {
+                return VIEW_HEADER;
+            }
+        }
+        return VIEW_CONFERENCE;
     }
 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         if (viewType == VIEW_HEADER) {
-            View v = LayoutInflater.from(mContext).inflate(R.layout.adapter_header, parent, false);
+            View v = LayoutInflater.from(mContext).inflate(R.layout.item_header, parent, false);
             return new org.gdgpoland.devfest.adapters.ViewHolderHeader(v);
         }
-        View v = LayoutInflater.from(mContext).inflate(R.layout.adapter_conference, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_conference, parent, false);
         return new org.gdgpoland.devfest.adapters.ViewHolderConference(v);
     }
 
@@ -66,33 +70,43 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof org.gdgpoland.devfest.adapters.ViewHolderHeader) {
-            ((org.gdgpoland.devfest.adapters.ViewHolderHeader)holder).dateStart.setText(
-                    new StringBuilder()
-                            .append(simpleDateFormat.format(new Date(mData.get(position).getStartDate())))
-                            .append(simpleDateFormat2.format(new Date(mData.get(position).getEndDate())))
-                            .toString());
+            try {
+                ((ViewHolderHeader)holder).dateStart.setText(
+                        new StringBuilder()
+                                .append(simpleDateFormat.format(new Date(mData.get(position).getStartDate())))
+                                .append(simpleDateFormat2.format(new Date(mData.get(position).getEndDate())))
+                                .toString());
+            } catch (Exception e) {
+                Log.e(TAG, "onBindViewHolder, problem with parsing date: " + mData.get(position).getStartDate() + ", or " + mData.get(position).getEndDate());
+                ((ViewHolderHeader)holder).dateStart.setText("");
+            }
             ((org.gdgpoland.devfest.adapters.ViewHolderHeader)holder).headline.setText(mData.get(position).getHeadeline());
 
             if (mData.get(position).getHeadeline().equals(mContext.getString(R.string.coffee_break))) {
                 holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.schedule_coffee));
-                ((org.gdgpoland.devfest.adapters.ViewHolderHeader)holder).iconHeader.setImageResource(R.drawable.coffee);
+                ((org.gdgpoland.devfest.adapters.ViewHolderHeader)holder).iconHeader.setImageResource(R.drawable.ic_local_cafe_white_36dp);
             } else if (mData.get(position).getHeadeline().equals(mContext.getString(R.string.lunch))) {
                 holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.schedule_lunch));
-                ((org.gdgpoland.devfest.adapters.ViewHolderHeader)holder).iconHeader.setImageResource(R.drawable.toast);
+                ((org.gdgpoland.devfest.adapters.ViewHolderHeader)holder).iconHeader.setImageResource(R.drawable.ic_restaurant_menu_white_36dp);
             } else if (mData.get(position).getHeadeline().equals(mContext.getString(R.string.tba))) {
                 holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.windowBackground));
                 ((org.gdgpoland.devfest.adapters.ViewHolderHeader)holder).iconHeader.setImageDrawable(null);
             } else {
                 holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.schedule_announcment));
-                ((org.gdgpoland.devfest.adapters.ViewHolderHeader)holder).iconHeader.setImageResource(R.drawable.microphone);
+                ((org.gdgpoland.devfest.adapters.ViewHolderHeader)holder).iconHeader.setImageResource(R.drawable.ic_people_white_36dp);
             }
 
         } else if (holder instanceof org.gdgpoland.devfest.adapters.ViewHolderConference) {
-            ((org.gdgpoland.devfest.adapters.ViewHolderConference)holder).dateStart.setText(
-                    new StringBuilder()
-                            .append(simpleDateFormat.format(new Date(mData.get(position).getStartDate())))
-                            .append(simpleDateFormat2.format(new Date(mData.get(position).getEndDate())))
-                            .toString());
+            try {
+                ((ViewHolderConference)holder).dateStart.setText(
+                        new StringBuilder()
+                                .append(simpleDateFormat.format(new Date(mData.get(position).getStartDate())))
+                                .append(simpleDateFormat2.format(new Date(mData.get(position).getEndDate())))
+                                .toString());
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, "onBindViewHolder, problem with parsing date: " + mData.get(position).getStartDate() + ", or " + mData.get(position).getEndDate());
+                ((ViewHolderConference)holder).dateStart.setText("");
+            }
 
             ((org.gdgpoland.devfest.adapters.ViewHolderConference)holder).location.setText(mData.get(position).getLocation());
             ((org.gdgpoland.devfest.adapters.ViewHolderConference)holder).headline.setText(mData.get(position).getHeadeline());

@@ -8,6 +8,9 @@
     <color name="textColorDetail">#424242</color>
     <color name="windowBackground">#efebe9</color>
 
+    <color name="scrollbar_center">#bf495ccf</color>
+    <color name="scrollbar">#bf3647af</color>
+
     <color name="highlight">#4191C4</color>
     <color name="schedule_announcment">#F29D20</color>
     <color name="schedule_coffee">#969995</color>

@@ -1,6 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
 
-    <item android:id="@+id/action_more" android:title="@string/action_more"
-        android:orderInCategory="100" android:showAsAction="never" />
+    <item
+        android:id="@+id/action_more"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_more" />
+    <item
+        android:id="@+id/action_refresh"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/action_refresh" />
 </menu>

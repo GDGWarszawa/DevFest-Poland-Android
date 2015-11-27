@@ -4,9 +4,10 @@
     <string name="app_name">GDG DevFest Poland</string>
     <string name="title_activity_conference">ConferenceActivity</string>
     <string name="action_about">Informacje</string>
-    <string name="action_more">Więcej</string>
-    <string name="speaker_title">Prelegent:</string>
-    <string name="text_title">Opis:</string>
+    <string name="action_more">Informacje</string>
+    <string name="action_refresh">Odśwież</string>
+    <string name="speaker_title">Prelegent</string>
+    <string name="text_title">Opis</string>
     <string name="location">&#160;\u2022 %1$s</string>
     <string name="day">Dzień %1$d</string>
     <!-- about -->
@@ -18,8 +19,8 @@
     <string name="author_text">Aplikacja jest forkiem aplikacje autorstwa Arnauda Camusa.</string>
     <string name="evaluation">Ocena</string>
     <string name="evaluation_text">Pomóż zrobić DevFest 2016 jeszcze lepszy przez wystawienie swojej oceny.</string>
-    <string name="coffee_break">Przerwa kawowa</string>
-    <string name="lunch">Obiad</string>
+    <string name="coffee_break">PRZERWA KAWOWA</string>
+    <string name="lunch">PRZERWA OBIADOWA</string>
     <string name="tba">t.b.a.</string>
     <string name="program_d2">Kliknij tutaj po program na drugi dzień!</string>
 
