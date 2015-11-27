@@ -11,7 +11,7 @@ This is a fork of a [conference-app](https://github.com/lynfogeek/conference-app
 The app tends to follow the [Material Design guidelines](http://www.google.com/design/spec/material-design/introduction.html) from Google.
 The app supports devices running from Android 4.0+ to Android 5.0 Lollipop.
 
-<img src="https://github.com/tajchert/conference-app/tree/master/images/home.png?raw=true" alt="Screenshot 1" width="350px" ><img src="https://github.com/tajchert/conference-app/tree/master/images/details.png?raw=true" alt="Screenshot 2" width="350px"><img src="https://github.com/tajchert/conference-app/tree/master/images/agenda.png?raw=true" alt="Screenshot 2" width="350px"> 
+<img src="https://raw.githubusercontent.com/tajchert/DevFest-Poland-Android/master/images/home.png" alt="Screenshot 1" width="250px" ><img src="https://raw.githubusercontent.com/tajchert/DevFest-Poland-Android/master/images/details.png" alt="Screenshot 2" width="250px"><img src="https://raw.githubusercontent.com/tajchert/DevFest-Poland-Android/master/images/agenda.png" alt="Screenshot 2" width="250px"> 
 
 ## Features
 
