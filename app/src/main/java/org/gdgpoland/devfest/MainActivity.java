@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.ChangeBounds;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity
     public static final String CONFERENCES = "conferences";
     private ArrayList<Conference> mConferences = new ArrayList<>();
     private Toolbar mToolbar;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private boolean isUpdating;
 
     private VolleySingleton mVolley;
@@ -64,6 +67,11 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary),
+                ContextCompat.getColor(MainActivity.this, R.color.colorPrimaryDark),
+                ContextCompat.getColor(MainActivity.this, R.color.scrollbar_center));
+        swipeRefreshLayout.setEnabled(false);
 
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
@@ -133,9 +141,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void update() {
+    public void update() {
         if (!isUpdating) {
             isUpdating = true;
+            if(swipeRefreshLayout != null) {
+                swipeRefreshLayout.setRefreshing(true);
+            }
             mVolley.addToRequestQueue(new TSVRequest(this, Request.Method.GET, getString(R.string.url_agenda), this, this));
         }
     }
@@ -156,6 +167,9 @@ public class MainActivity extends AppCompatActivity
 
     private void onUpdateDone() {
         isUpdating = false;
+        if(swipeRefreshLayout != null) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     public ArrayList<Conference> getConferences() {

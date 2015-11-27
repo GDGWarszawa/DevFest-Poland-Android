@@ -91,7 +91,7 @@ public class AboutActivity extends AppCompatActivity implements AdapterView.OnIt
                 break;
             case 2: //Open my twitter ;)
                 Intent i2 = new Intent(Intent.ACTION_VIEW);
-                i2.setData(Uri.parse("http://twitter.com/lynfogeek"));
+                i2.setData(Uri.parse("http://twitter.com/Tajchert"));
                 startActivity(i2);
                 break;
             case 3: //Open the feedback form
