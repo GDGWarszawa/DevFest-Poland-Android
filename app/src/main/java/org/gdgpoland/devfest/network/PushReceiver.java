@@ -40,10 +40,10 @@ public class PushReceiver extends ParsePushBroadcastReceiver {
                     }
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(mContext)
-                                    .setSmallIcon(R.mipmap.ic_launcher)
+                                    .setSmallIcon(R.drawable.gdg_poland_icon)
                                     .setColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
                                     .setLargeIcon(BitmapFactory.decodeResource(
-                                            mContext.getResources(), R.mipmap.ic_launcher))
+                                            mContext.getResources(), R.drawable.gdg_poland_icon))
                                     .setOnlyAlertOnce(true)
                                     .setAutoCancel(true)
                                     .setContentTitle(title)

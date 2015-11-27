@@ -1,7 +1,9 @@
-Conference Application
+GDG DevFest Poland 2015 Conference App
 ===============
 
 Simple conference app made for various conferences. Displays the list of talks and details about them: speaker, description, room, etc.
+
+This is a fork of a [conference-app](https://github.com/lynfogeek/conference-app) adopted to Poland DevFest needs. Added Parse for push notifications and Fabric.io for crashes and stats.
 
 
 ## Material Design
@@ -9,7 +11,7 @@ Simple conference app made for various conferences. Displays the list of talks a
 The app tends to follow the [Material Design guidelines](http://www.google.com/design/spec/material-design/introduction.html) from Google.
 The app supports devices running from Android 4.0+ to Android 5.0 Lollipop.
 
-<img src="https://github.com/lynfogeek/droidconNL-2014/blob/babbq/graphic/home.png?raw=true" alt="Screenshot 1" width="350px" ><img src="https://github.com/lynfogeek/droidconNL-2014/blob/babbq/graphic/talk.png?raw=true" alt="Screenshot 2" width="350px"> 
+<img src="https://github.com/tajchert/conference-app/tree/master/images/home.png?raw=true" alt="Screenshot 1" width="350px" ><img src="https://github.com/tajchert/conference-app/tree/master/images/details.png?raw=true" alt="Screenshot 2" width="350px"><img src="https://github.com/tajchert/conference-app/tree/master/images/agenda.png?raw=true" alt="Screenshot 2" width="350px"> 
 
 ## Features
 
@@ -28,9 +30,9 @@ And you can also:
  
 ## APK
 
-The APK buid for the Big Android BBQ Europe 2015 can be found on the Google Play:
+The APK buid for the GDG DevFest Poland 2015 can be found on the Google Play:
 
-<a href="https://play.google.com/store/apps/details?id=nl.babbq.conference2015">
+<a href="https://play.google.com/store/apps/details?id=org.gdgpoland.devfest">
   <img alt="Get it on Google Play"
        src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png" />
 </a>
