@@ -24,6 +24,7 @@
     <string name="tba">t.b.a.</string>
     <string name="program_d2">Kliknij tutaj po program na drugi dzień!</string>
 
+    <string name="toast_error_network">Błąd pobierania danych</string>
 
     <!-- transition name -->
     <string name="toolbar">toolbar</string>

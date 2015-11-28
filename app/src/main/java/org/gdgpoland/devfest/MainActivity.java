@@ -1,19 +1,16 @@
 package org.gdgpoland.devfest;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.ChangeBounds;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -24,7 +21,6 @@ import org.gdgpoland.devfest.network.TSVRequest;
 import org.gdgpoland.devfest.network.VolleySingleton;
 import org.gdgpoland.devfest.objects.Conference;
 import org.gdgpoland.devfest.objects.ConferenceDay;
-import org.gdgpoland.devfest.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,22 +43,8 @@ public class MainActivity extends AppCompatActivity
 
     private VolleySingleton mVolley;
 
-    /**
-     * Enable to share views across activities with animation
-     * on Android 5.0 Lollipop
-     */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void setupLollipop() {
-        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
-        getWindow().setSharedElementExitTransition(new ChangeBounds());
-        getWindow().setSharedElementEnterTransition(new ChangeBounds());
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (Utils.isLollipop()) {
-            //setupLollipop();
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -77,10 +59,10 @@ public class MainActivity extends AppCompatActivity
             setSupportActionBar(mToolbar);
             mToolbar.setTitle(getString(R.string.app_name));
         }
-
         if (savedInstanceState != null) {
             // Restore value of members from saved state
             //mConferences.addAll(savedInstanceState.<Conference>getParcelableArrayList(CONFERENCES));
+            //TODO
         } else {
             mConferences.addAll(Conference.loadFromPreferences(this));
         }
@@ -102,6 +84,7 @@ public class MainActivity extends AppCompatActivity
         bundle.putParcelableArrayList(CONFERENCES, mConferences);
     }
 
+
     private void setupViewPager(ArrayList<Conference> mConferences) {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentFrame);
         if(currentFragment != null && currentFragment instanceof  ListingFragment) {
@@ -113,7 +96,7 @@ public class MainActivity extends AppCompatActivity
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ListingFragment listingFragment = ListingFragment.newInstance(mConferences, day1);
         ft.replace(R.id.fragmentFrame, listingFragment, "listFragment");
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
     @Override
@@ -154,6 +137,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onErrorResponse(VolleyError error) {
         error.printStackTrace();
+        Toast.makeText(MainActivity.this, getString(R.string.toast_error_network), Toast.LENGTH_LONG).show();
         onUpdateDone();
     }
 
