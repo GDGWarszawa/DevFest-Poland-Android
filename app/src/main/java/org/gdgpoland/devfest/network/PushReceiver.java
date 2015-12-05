@@ -23,7 +23,7 @@ public class PushReceiver extends ParsePushBroadcastReceiver {
     private static final String TAG = PushReceiver.class.getSimpleName();
 
     protected void onPushReceive(Context mContext, Intent intent) {
-        if("com.parse.push.intent.RECEIVE".equals(intent.getAction())) {
+        if("com.parse.push.intent.RECEIVE".equals(intent.getAction()) && intent.hasExtra("com.parse.Data") && intent.getStringExtra("com.parse.Data") != null) {
             try {
                 JSONObject pushData = new JSONObject(intent.getStringExtra("com.parse.Data"));
                 if(pushData.has("show_notif") && "true".equals(pushData.getString("show_notif"))) {
